@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: aomarpipelinesjavascriptdocker 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aomarpipelinesjavascriptdocker
+  template:
+    metadata:
+      labels:
+        app: aomarpipelinesjavascriptdocker 
+    spec:
+      containers:
+        - name: aomarpipelinesjavascriptdocker 
+          image: amanypro690acr.azurecr.io/aomarpipelinesjavascriptdocker
+          ports:
+          - containerPort: 8080
