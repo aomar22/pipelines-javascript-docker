@@ -18,9 +18,6 @@ variables:
   tag: '$(Build.BuildId)'
   imagePullSecret: 'amanypro690acrfe43-auth'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
   # Name of the new namespace being created to deploy the PR changes.
   k8sNamespaceForPR: 'review-app-$(System.PullRequest.PullRequestId)'
 
@@ -31,7 +28,7 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
+      name: PRO690-AKS
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
@@ -55,7 +52,7 @@ stages:
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
     pool:
-      vmImage: $(vmImageName)
+      name: PRO690-AKS
     environment: 'aomar22pipelinesjavascriptdocker.default'
     strategy:
       runOnce:
@@ -84,7 +81,7 @@ stages:
     displayName: Deploy Pull request
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
     pool:
-      vmImage: $(vmImageName)
+      name: PRO690-AKS
 
     environment: 'aomar22pipelinesjavascriptdocker.$(k8sNamespaceForPR)'
     strategy:
